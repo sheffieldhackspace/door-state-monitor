@@ -1,0 +1,16 @@
+[Unit]
+Description=MQTT listener which saves door information to file
+After=network.target
+
+[Service]
+User=mqttlistener
+Group=mqttlistener
+
+ExecStart=/usr/shhm/doorstate/listen.sh
+WorkingDirectory=/usr/shhm/doorstate
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
