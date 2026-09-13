@@ -3,6 +3,9 @@
 
 source .env
 
+echo "Content-type: text/plain"
+echo ""
+
 # door states
 echo "# TYPE door_events_total counter"
 echo "# HELP total number of door events seen"
