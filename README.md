@@ -67,5 +67,9 @@ server {
 Then, the Prometheus configuration should be:
 
 ```yaml
-
+scrape_configs:
+  - job_name: "door state metrics"
+    scrape_interval: 300s
+    static_configs:
+      - targets: ['localhost:8481']
 ```
