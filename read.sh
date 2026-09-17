@@ -28,7 +28,7 @@ for r in 1 2 3 4 8 16; do
   fob_reads=$(
     cat "${STATE_FILE_ROOT}/${STATE_FOB_FILE}" \
       | awk -v min_ts="${min_ts}" \
-        '$1 > min_ts {total+=1} END {print total}'
+        'BEGIN {total=0} $1 > min_ts {total+=1} END {print total}'
   )
   printf 'door_fob_reads{door="a", last_h="%s"} %s\n' "${FOB_RECENCY_H}" "${fob_reads}"
 done
