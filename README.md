@@ -9,6 +9,7 @@
 - [ ] also filter by "door=c"
 - [ ] also add "door C has been left open"
 - [ ] also add general "space state" (closed/open)
+- [ ] do green door fobs register too ?
 
 ## `listen.sh`
 
