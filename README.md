@@ -3,6 +3,13 @@
 - Monitor MQTT state and save door events and fob events to files.
 - Serve a `/metrics` file for Prometheus
 
+## to-do
+
+- [ ] also add upstairs door?
+- [ ] also filter by "door=c"
+- [ ] also add "door C has been left open"
+- [ ] also add general "space state" (closed/open)
+
 ## `listen.sh`
 
 `listen.sh` listens to MQTT, to set up:
