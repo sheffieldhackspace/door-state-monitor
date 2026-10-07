@@ -66,7 +66,7 @@ while read -u 10 -r message; do
   topic=$(echo "${message}" | cut -d' ' -f 1)
   message=$(echo "${message}" | cut -d' ' -f 2-)
 
-  if [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_FOB}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_FOB}" ]]; then
+  if [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_FOB}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_FOB}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORX_FOB}" ]]; then
     { read node; read fobid; read datetime; } <<< $(echo "${message}" | jq -r '.node, .id, .ts')
     timestamp=$(date --date="${datetime}" '+%s')
     door=$(slugify "${node}")
@@ -74,7 +74,7 @@ while read -u 10 -r message; do
     # do not send timestamp, just use server timestamp
     update_fob_file "${door}" "" "${fobid}"
 
-  elif [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_OPENSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_OPENSTATE}" ]]; then
+  elif [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_OPENSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_OPENSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORX_OPENSTATE}" ]]; then
     { read node; read opened; } <<< $(echo "${message}" | jq -r '.node, ."Door Open"')
     door=$(slugify "${node}")
     echo "  got door open/closed! node <${node}> opened <${opened}>"
@@ -86,7 +86,7 @@ while read -u 10 -r message; do
       echo "  warning: non-boolean bool" >&2
     fi
 
-  elif [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_LOCKSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_LOCKSTATE}" ]]; then
+  elif [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORA_LOCKSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORC_LOCKSTATE}" ]] || [[ "${topic}" == "${MOSQUITTO_TOPIC_DOORX_LOCKSTATE}" ]]; then
     { read node; read state; } <<< $(echo "${message}" | jq -r '.node, .state')
     door=$(slugify "${node}")
     echo "  got door locking/unlocking! node <${node}> state <${state}>" >&2
@@ -111,8 +111,8 @@ while read -u 10 -r message; do
   fi
 done 10< <(
   mosquitto_sub -h mosquitto.shhm.uk -v -R \
-    -t "${MOSQUITTO_TOPIC_DOORA_OPENSTATE}" -t "${MOSQUITTO_TOPIC_DOORC_OPENSTATE}" \
-    -t "${MOSQUITTO_TOPIC_DOORA_LOCKSTATE}" -t "${MOSQUITTO_TOPIC_DOORC_LOCKSTATE}" \
-    -t "${MOSQUITTO_TOPIC_DOORA_FOB}" -t "${MOSQUITTO_TOPIC_DOORC_FOB}" \
+    -t "${MOSQUITTO_TOPIC_DOORA_OPENSTATE}" -t "${MOSQUITTO_TOPIC_DOORC_OPENSTATE}" -t "${MOSQUITTO_TOPIC_DOORX_OPENSTATE}" \
+    -t "${MOSQUITTO_TOPIC_DOORA_LOCKSTATE}" -t "${MOSQUITTO_TOPIC_DOORC_LOCKSTATE}" -t "${MOSQUITTO_TOPIC_DOORX_LOCKSTATE}" \
+    -t "${MOSQUITTO_TOPIC_DOORA_FOB}" -t "${MOSQUITTO_TOPIC_DOORC_FOB}" -t "${MOSQUITTO_TOPIC_DOORX_FOB}" \
     -t "${MOSQUITTO_TOPIC_STATE}"
 )

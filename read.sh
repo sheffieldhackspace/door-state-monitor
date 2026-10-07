@@ -23,7 +23,7 @@ done
 # door states
 echo "# TYPE door_events_total counter"
 echo "# HELP total number of door events seen"
-for door in a c; do
+for door in a c x; do
   for doorstate in closed opened unlocking unlocked locking locked; do
     file="${STATE_FILE_ROOT}/door${door}_${doorstate}.txt"
     if [[ ! -f "${file}" ]]; then
@@ -38,7 +38,7 @@ done
 # non-unique fob reads
 echo "# TYPE door_fob_reads gauge"
 echo "# HELP number of fob reads"
-for door in a c all; do
+for door in a c x all; do
   for r in 1 2 3 4 8 16; do
     FOB_RECENCY_H="${r}"
     min_ts=$(date --date="-${FOB_RECENCY_H} hour" '+%s')
@@ -59,7 +59,7 @@ done
 # unique fob reads
 echo "# TYPE door_unique_fob_reads gauge"
 echo "# HELP number of fob reads"
-for door in a c all; do
+for door in a c x all; do
   for r in 1 2 3 4 8 16; do
     FOB_RECENCY_H="${r}"
     min_ts=$(date --date="-${FOB_RECENCY_H} hour" '+%s')
