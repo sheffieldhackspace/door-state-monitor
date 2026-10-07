@@ -7,10 +7,10 @@ echo "Content-type: text/plain"
 echo ""
 
 # space state
+# echo "# got state: <${state}>" # can't have this as prometheus gets sad
 echo "# TYPE space gauge"
-echo "# HELP "
+echo "# HELP current state of space, as enums"
 state=$(cat "${STATE_FILE_ROOT}/state.txt")
-echo "# got state: <${state}>"
 for state_enum in PRE_EXIT EXITING LOCKED ENTERING OCCUPIED; do
   if [[ "${state}" == "${state_enum}" ]]; then
     is_true=1
