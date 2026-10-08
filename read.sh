@@ -24,7 +24,7 @@ done
 echo "# TYPE door_events_total counter"
 echo "# HELP total number of door events seen"
 for door in a c x; do
-  for doorstate in closed opened unlocking unlocked locking locked; do
+  for doorstate in closed opened unlocking unlocked locking locked doorbell; do
     file="${STATE_FILE_ROOT}/door${door}_${doorstate}.txt"
     if [[ ! -f "${file}" ]]; then
       num=0
