@@ -102,6 +102,14 @@ while read -u 10 -r message; do
       state=$(echo "${message}" | sed 's+State\.++')
       echo "  got state change to <${state}>"
       update_state_file "${state}"
+    elif echo "${message}" | grep 'Event.DOORBELL_' > /dev/null; then
+      door=$(echo "${message}" | sed 's+Event.DOORBELL_++')
+      echo "  got doorbell: door ${door}"
+      if [[ "${door}" == 1 ]]; then increment_file_counter "doorx_doorbell"
+      elif [[ "${door}" == 2 ]]; then increment_file_counter "doora_doorbell"
+      elif [[ "${door}" == 3 ]]; then increment_file_counter "doorc_doorbell"
+      else echo "  warning: I do not know this state" >&2
+      fi
     else
       echo "  ignore message"
     fi
